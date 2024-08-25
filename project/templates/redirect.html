@@ -1,7 +1,14 @@
 {% extends "_base.html" %}
+{% load static %}
+
+{% block title %}Redirecting...{% endblock title %}
 
 {% block content %}
-    <h2>URL: "{{ obj.original_url }}"</h2>
+    <div class="redirect-page">
+        <h2>URL: "{{ obj.original_url }}"</h2>
+        <h3>You'll be redirected in <span class='counter'>5</span> sec</h3>
+        <a href="{{ obj.original_url }}" class='url'>Click here to go to the page!</a>
+    </div>
 
-    <a href="{% url "{{ obj.original_url }}" %}">Click here to go to the page!</a>
+    <script src='{% static "js/redirect.js" %}'></script>
 {% endblock content %}

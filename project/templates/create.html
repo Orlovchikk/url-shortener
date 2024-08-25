@@ -1,11 +1,13 @@
 {% extends "_base.html" %}
 
+{% block title %}New Short URL{% endblock title %}
+
 {% block content %}
-    <h2>Enter url</h2>
+    <h2>Enter URL</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type='submit' method='post'>Create short url</button>
+        <button type='submit' method='post'>Create Short URL</button>
     </form>
 
 {% endblock content %}

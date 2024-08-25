@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Short_url
+from . import models
 
-admin.site.register(Short_url)
+admin.site.register(models.ShortUrl)

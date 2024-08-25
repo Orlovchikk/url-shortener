@@ -1,5 +1,10 @@
 {% extends "_base.html" %}
 
+{% block title %}New URL{% endblock title %}
+
 {% block content %}
-    <h1>Your short url: "domain.com/{{ chars }}"</h1>
+    <div class="urlcreated-page">
+        <h2>Your short url: <a href="{% url "redirect" chars %}"><span>domain.com/{{ chars }}</span></a></h2>
+        <h3><a href=" {% url "create" %}">Create New Short URL</a></h3>
+    </div>
 {% endblock content %}

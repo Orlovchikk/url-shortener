@@ -1,6 +1,12 @@
 {% extends "_base.html" %}
 
+{% block title %}Home | ShortURL{% endblock title %}
+
 
 {% block content %}
-    <a href="{% url "create" %}">Create new URL</a>
+    <div class="home-page">
+        <h1> 
+            <a href="{% url "create" %}">Create New URL</a>
+        </h1>
+    </div>
 {% endblock content %}
