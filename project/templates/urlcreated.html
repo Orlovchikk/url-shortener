@@ -5,6 +5,7 @@
 {% block content %}
     <div class="urlcreated-page">
         <h2>Your short url: <a href="{% url "redirect" chars %}"><span>domain.com/{{ chars }}</span></a></h2>
+        <img src="data:image/png;base64, {{ qrcode }}" alt="QR Code">
         <h3><a href=" {% url "create" %}">Create New Short URL</a></h3>
     </div>
 {% endblock content %}

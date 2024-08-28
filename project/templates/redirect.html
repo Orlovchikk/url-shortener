@@ -5,9 +5,11 @@
 
 {% block content %}
     <div class="redirect-page">
-        <h2>URL: "{{ obj.original_url }}"</h2>
+        <h2>URL: "<a  class='url' href="{{ original_url }}">{{ original_url }}</a>"</h2>
         <h3>You'll be redirected in <span class='counter'>5</span> sec</h3>
-        <a href="{{ obj.original_url }}" class='url'>Click here to go to the page!</a>
+        <button class='cancel'>Cancel redirecting</button>
+        <img src="data:image/png;base64, {{ qrcode }}" alt="QR Code">
+        <a href="{{ original_url }}" class='click-link'><h2>Click here to go to the page!</h2></a>
     </div>
 
     <script src='{% static "js/redirect.js" %}'></script>
