@@ -12,16 +12,16 @@
             <th>Change</th>
             <th>Delete</th>
         </tr>
-        <tr>
-            {% for link in links %}
+        {% for link in links %}
+            <tr>
                 <td><a href="{{ link.original_url }}">{{ link.original_url }}</a></td>
                 <td><a href="{{ link.get_absolute_url }}">{{ link.short_url }}</a></td>
                 <td>{{ link.datatime_created }}</td>
                 <td><a href="">___</a></td>
                 <td><a href="{% url "link_update" link.short_url %}">___</a></td>
                 <td><a href="{% url "link_delete" link.short_url %}">___</a></td>
-            {% endfor %}
-        </tr>
+            </tr>
+        {% endfor %}
 
     </table>
 

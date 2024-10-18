@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 class ShortUrl(models.Model):
-    original_url = models.URLField(max_length=700)
+    original_url = models.URLField(max_length=300)
     short_url = models.CharField(primary_key=True)
     datatime_created = models.DateTimeField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
