@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+
+{% block title %}Urls{% endblock title %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Original Url</th>
+            <th>Short Url</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+        <tr>
+            {% for book in book_list %}
+                <td>book.original_url</td>
+                <td>book.short_url</td>
+                <td>book.datatime_created</td>
+        </tr>
+
+    </table>
+
+    {% endfor %}
+{% endblock content %}

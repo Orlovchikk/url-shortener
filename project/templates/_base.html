@@ -9,6 +9,30 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    {% block content %}{% endblock content %}
+    <body>
+        <ul>
+            {% comment %} <li>
+                <a href="{% url "" %}">About</a>
+            </li>
+            <li>
+                <a href="{% url "" %}">Books</a>
+            </li> {% endcomment %}
+            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url "account_logout" %}">Log Out</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url "account_login" %}">Log In</a>
+            </li>
+            <li>
+                <a href="{% url "account_signup" %}">Sign Up</a>
+            </li>
+            {% endif %}
+        </ul>
+
+    <div class="container">
+        {% block content %}{% endblock content %}
+    </div>
 </body>
 </html>

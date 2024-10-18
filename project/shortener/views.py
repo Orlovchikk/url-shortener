@@ -1,15 +1,18 @@
 import base64
-from django.shortcuts import render
-import qrcode
 import io
 import os
+import random
+import string
+
+import qrcode
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
+from django.utils import timezone
+from django.views.generic import ListView
 from dotenv import load_dotenv
 
 from . import models
 from .forms import CreateNewShortUrl
-from datetime import datetime
-import random
-import string
 from .models import ShortUrl
 
 
@@ -23,20 +26,19 @@ def create_short_url(request):
 
         if form.is_valid():
             original_website = form.cleaned_data["original_url"]
-            unique_key = None
 
-            if ShortUrl.objects.filter(original_url=original_website).exists():
-                unique_key = ShortUrl.objects.get(original_url=original_website)
-            else:
-                unique_key = "".join(
-                    random.choices(string.ascii_letters + string.digits, k=6)
-                )
-                s = ShortUrl(
-                    original_url=original_website,
-                    short_url=unique_key,
-                    datatime_created=datetime.now(),
-                )
-                s.save()
+            unique_key = "".join(
+                random.choices(string.ascii_letters + string.digits, k=6)
+            )
+
+            user = request.user if request.user.is_authenticated else None
+            s = ShortUrl(
+                original_url=original_website,
+                short_url=unique_key,
+                datatime_created=timezone.now(),
+                user=user,
+            )
+            s.save()
 
             load_dotenv()
             domain = os.getenv("domain")
@@ -79,3 +81,10 @@ def create_qrcode(link):
     qrcode_png_data = base64.b64encode(buffer.read()).decode("utf-8")
 
     return qrcode_png_data
+
+
+class UrlListView(LoginRequiredMixin, ListView):
+    model = ShortUrl
+    template_name = "shortener/url_list.html"
+    context_object_name = "url"
+    login_url = "account_login"
