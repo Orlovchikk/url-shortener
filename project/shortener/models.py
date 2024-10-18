@@ -1,5 +1,6 @@
 from accounts.models import CustomUser
 from django.db import models
+from django.urls import reverse
 
 
 class ShortUrl(models.Model):
@@ -7,6 +8,9 @@ class ShortUrl(models.Model):
     short_url = models.CharField(primary_key=True)
     datatime_created = models.DateTimeField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    def get_absolute_url(self):
+        return reverse("redirect", kwargs={"url": self.short_url})
 
     def __str__(self):
         return self.short_url

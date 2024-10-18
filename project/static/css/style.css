@@ -104,7 +104,7 @@ body {
   
 }
 
-.redirect-page button.cancel:hover {
+.redirect-page button.cancel:hover:enabled {
   background-color: #c9302c;
 }
 

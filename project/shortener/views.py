@@ -8,7 +8,8 @@ import qrcode
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import DeleteView, ListView, UpdateView
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 from . import models
@@ -49,24 +50,24 @@ def create_short_url(request):
                 "qrcode": qrcode_png,
             }
 
-            return render(request, "urlcreated.html", context)
+            return render(request, "shortener/urlcreated.html", context)
     else:
         form = CreateNewShortUrl()
-        return render(request, "create.html", {"form": form})
+        return render(request, "shortener/create.html", {"form": form})
 
 
 def redirect(request, url):
     try:
-        obj = models.ShortUrl.objects.get(short_url=str(url))
+        obj = models.ShortUrl.objects.get(short_url=url)
         qrcode = create_qrcode(obj.original_url)
         context = {
             "original_url": obj.original_url,
             "qrcode": qrcode,
         }
-        return render(request, "redirect.html", context=context)
+        return render(request, "shortener/redirect.html", context=context)
     except Exception as e:
         print(e)
-        return render(request, "pagenotfound.html")
+        return render(request, "shortener/pagenotfound.html")
 
 
 def create_qrcode(link):
@@ -85,6 +86,28 @@ def create_qrcode(link):
 
 class UrlListView(LoginRequiredMixin, ListView):
     model = ShortUrl
-    template_name = "shortener/url_list.html"
-    context_object_name = "url"
+    template_name = "shortener/link_list.html"
+    context_object_name = "links"
     login_url = "account_login"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["links"] = context["links"].filter(user=self.request.user)
+        return context
+
+
+class UrlDeleteView(LoginRequiredMixin, DeleteView):
+    model = ShortUrl
+    template_name = "shortener/link_confirm_delete.html"
+    context_object_name = "link"
+    login_url = "account_login"
+    success_url = reverse_lazy("links_list")
+
+
+class UrlUpdateView(LoginRequiredMixin, UpdateView):
+    model = ShortUrl
+    template_name = "shortener/link_update_form.html"
+    context_object_name = "link"
+    login_url = "account_login"
+    fields = ["original_url"]
+    success_url = reverse_lazy("links_list")

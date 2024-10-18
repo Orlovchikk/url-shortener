@@ -12,6 +12,6 @@ let redirect_timer = setInterval(function () {
 const cancel_btn = document.getElementsByClassName("cancel")[0]
 cancel_btn.addEventListener("click", function () {
   clearInterval(redirect_timer)
-  counter_div.textContent = "cancelled"
+  counter_div.parentElement.textContent = "cancelled"
   cancel_btn.disabled = true
 })

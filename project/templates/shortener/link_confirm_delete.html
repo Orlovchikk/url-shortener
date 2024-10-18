@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+
+{% block title %}Confirm Deleting | ShortUrl{% endblock title %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+        <p>Are you sure you want to delete the short url: "{{ link.url }}"?</p>
+    <button type="submit" method='post'>Yes, Delete</button>
+        
+    </form>
+{% endblock content %}
+

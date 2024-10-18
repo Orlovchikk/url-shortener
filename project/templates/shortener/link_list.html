@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+
+{% block title %}Links | ShortUrl{% endblock title %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Original Url</th>
+            <th>Short Url</th>
+            <th>Created</th>
+            <th>Statistics</th>
+            <th>Change</th>
+            <th>Delete</th>
+        </tr>
+        <tr>
+            {% for link in links %}
+                <td><a href="{{ link.original_url }}">{{ link.original_url }}</a></td>
+                <td><a href="{{ link.get_absolute_url }}">{{ link.short_url }}</a></td>
+                <td>{{ link.datatime_created }}</td>
+                <td><a href="">___</a></td>
+                <td><a href="{% url "link_update" link.short_url %}">___</a></td>
+                <td><a href="{% url "link_delete" link.short_url %}">___</a></td>
+            {% endfor %}
+        </tr>
+
+    </table>
+
+{% endblock content %}

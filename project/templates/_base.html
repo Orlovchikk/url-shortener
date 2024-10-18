@@ -11,13 +11,13 @@
 <body>
     <body>
         <ul>
-            {% comment %} <li>
-                <a href="{% url "" %}">About</a>
-            </li>
             <li>
-                <a href="{% url "" %}">Books</a>
-            </li> {% endcomment %}
+                <a href="{% url "create" %}">Create New Short Url</a>
+            </li>
             {% if user.is_authenticated %}
+            <li>
+                <a href="{% url "links_list" %}">My links</a>
+            </li>
             <li>
                 <a href="{% url "account_logout" %}">Log Out</a>
             </li>
