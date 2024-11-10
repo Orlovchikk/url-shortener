@@ -1,6 +1,10 @@
 [tool.poetry]
-package-mode = false
+name = "site-project"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
 readme = "README.md"
+package-mode = false
 homepage = 'http://0.0.0.0:8000/'
 repository = 'http://0.0.0.0:8000/'
 
@@ -15,6 +19,11 @@ pillow = "^10.4.0"
 python-dotenv = "^1.0.1"
 dj-database-url = "^2.2.0"
 django-allauth = "^65.0.2"
+geoip2 = "^4.8.0"
+pyyaml = "^6.0.2"
+ua-parser = "^0.18.0"
+user-agents = "^2.2.0"
+django-user-agents = "^0.4.0"
 
 
 [tool.poetry.group.dev.dependencies]

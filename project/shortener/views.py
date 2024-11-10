@@ -1,20 +1,19 @@
-import base64
-import io
 import os
 import random
 import string
 
-import qrcode
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DeleteView, ListView, UpdateView
-from django.urls import reverse_lazy
 from dotenv import load_dotenv
-
+from statistic.models import ClickData
+from django_user_agents.utils import get_user_agent
 from . import models
 from .forms import CreateNewShortUrl
 from .models import ShortUrl
+from .utils import *
 
 
 def home(request):
@@ -38,6 +37,7 @@ def create_short_url(request):
                 short_url=unique_key,
                 datatime_created=timezone.now(),
                 user=user,
+                clicks=0,
             )
             s.save()
 
@@ -58,30 +58,36 @@ def create_short_url(request):
 
 def redirect(request, url):
     try:
-        obj = models.ShortUrl.objects.get(short_url=url)
-        qrcode = create_qrcode(obj.original_url)
-        context = {
-            "original_url": obj.original_url,
-            "qrcode": qrcode,
-        }
-        return render(request, "shortener/redirect.html", context=context)
+        obj = get_object_or_404(models.ShortUrl, short_url=url)
+
+        if obj:
+            country = get_country(request)
+            user_agent_info = get_user_agent_info(get_user_agent(request))
+            language = get_language(request.META.get("HTTP_ACCEPT_LANGUAGE", ""))
+
+            click_data = ClickData.objects.create(
+                short_url=obj,
+                created_at=timezone.now(),
+                country=country,
+                language=language,
+                **user_agent_info
+            )
+            click_data.save()
+
+            obj.clicks += 1
+            obj.save()
+
+            qrcode = create_qrcode(obj.original_url)
+            context = {
+                "original_url": obj.original_url,
+                "qrcode": qrcode,
+            }
+            return render(request, "shortener/redirect.html", context=context)
+        else:
+            return render(request, "shortener/pagenotfound.html")
+
     except Exception as e:
         print(e)
-        return render(request, "shortener/pagenotfound.html")
-
-
-def create_qrcode(link):
-    qr = qrcode.QRCode(version=1, box_size=9, border=1)
-    qr.add_data(link)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white")
-
-    buffer = io.BytesIO()
-    img.save(buffer, format="PNG")
-    buffer.seek(0)
-    qrcode_png_data = base64.b64encode(buffer.read()).decode("utf-8")
-
-    return qrcode_png_data
 
 
 class UrlListView(LoginRequiredMixin, ListView):

@@ -32,9 +32,11 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
+    "django_user_agents",
     # Local
     "shortener.apps.ShortenerConfig",
     "accounts.apps.AccountsConfig",
+    "statistic.apps.StatisticConfig",
 ]
 
 MIDDLEWARE = [
@@ -45,7 +47,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Third-party
     "allauth.account.middleware.AccountMiddleware",
+    "django_user_agents.middleware.UserAgentMiddleware",
 ]
 
 ROOT_URLCONF = "project.urls"
@@ -73,11 +77,14 @@ WSGI_APPLICATION = "project.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://postgres:postgres@postgres:5432/postgres",
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "postgres",
+        "PORT": "5432",
+    }
 }
 
 
@@ -152,3 +159,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+
+# geoip
+
+GEOIP_PATH = BASE_DIR / "geoip"
+GEOIP_CITY = "GeoLite2-City.mmdb"
+GEOIP_COUNTRY = "GeoLite2-Country.mmdb"
