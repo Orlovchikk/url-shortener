@@ -19,6 +19,9 @@ pyyaml = "^6.0.2"
 ua-parser = "^0.18.0"
 user-agents = "^2.2.0"
 django-user-agents = "^0.4.0"
+plotly = "^5.24.1"
+pandas = "^2.2.3"
+pycountry = "^24.6.1"
 
 
 [tool.poetry.group.dev.dependencies]

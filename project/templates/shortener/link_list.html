@@ -17,7 +17,7 @@
                 <td><a href="{{ link.original_url }}">{{ link.original_url }}</a></td>
                 <td><a href="{{ link.get_absolute_url }}">{{ link.short_url }}</a></td>
                 <td>{{ link.datatime_created }}</td>
-                <td><a href="">___</a></td>
+                <td><a href="{% url "short-url-stat" link.short_url %}">Check statistic</a></td>
                 <td><a href="{% url "link_update" link.short_url %}">___</a></td>
                 <td><a href="{% url "link_delete" link.short_url %}">___</a></td>
             </tr>

@@ -13,7 +13,6 @@ from statistic.models import ClickData
 
 from . import models
 from .forms import CreateNewShortUrl
-from .models import ShortUrl
 from .utils import *
 
 
@@ -33,7 +32,7 @@ def create_short_url(request):
             )
 
             user = request.user if request.user.is_authenticated else None
-            s = ShortUrl(
+            s = models.ShortUrl(
                 original_url=original_website,
                 short_url=unique_key,
                 datatime_created=timezone.now(),
@@ -92,7 +91,7 @@ def redirect(request, url):
 
 
 class UrlListView(LoginRequiredMixin, ListView):
-    model = ShortUrl
+    model = models.ShortUrl
     template_name = "shortener/link_list.html"
     context_object_name = "links"
     login_url = "account_login"
@@ -104,7 +103,7 @@ class UrlListView(LoginRequiredMixin, ListView):
 
 
 class UrlDeleteView(LoginRequiredMixin, DeleteView):
-    model = ShortUrl
+    model = models.ShortUrl
     template_name = "shortener/link_confirm_delete.html"
     context_object_name = "link"
     login_url = "account_login"
@@ -112,7 +111,7 @@ class UrlDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class UrlUpdateView(LoginRequiredMixin, UpdateView):
-    model = ShortUrl
+    model = models.ShortUrl
     template_name = "shortener/link_update_form.html"
     context_object_name = "link"
     login_url = "account_login"
