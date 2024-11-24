@@ -1,9 +1,4 @@
 [tool.poetry]
-name = "site-project"
-version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
-readme = "README.md"
 package-mode = false
 homepage = 'http://0.0.0.0:8000/'
 repository = 'http://0.0.0.0:8000/'
@@ -28,6 +23,7 @@ django-user-agents = "^0.4.0"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
+ngrok = "^1.4.0"
 
 [build-system]
 requires = ["poetry-core"]

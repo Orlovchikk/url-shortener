@@ -11,3 +11,6 @@ class ClickData(models.Model):
     device_type = models.CharField(null=True)
     operating_system = models.CharField(null=True)
     is_bot = models.BooleanField(null=True)
+
+    class Meta:
+        ordering = ("created_at",)

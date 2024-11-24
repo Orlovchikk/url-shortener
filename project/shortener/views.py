@@ -7,9 +7,10 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DeleteView, ListView, UpdateView
+from django_user_agents.utils import get_user_agent
 from dotenv import load_dotenv
 from statistic.models import ClickData
-from django_user_agents.utils import get_user_agent
+
 from . import models
 from .forms import CreateNewShortUrl
 from .models import ShortUrl
@@ -42,8 +43,8 @@ def create_short_url(request):
             s.save()
 
             load_dotenv()
-            domain = os.getenv("domain")
-            qrcode_png = create_qrcode(domain + str(unique_key))
+            domain = "https://f5dc-94-25-229-185.ngrok-free.app"
+            qrcode_png = create_qrcode(domain + "/" + str(unique_key))
 
             context = {
                 "chars": unique_key,
